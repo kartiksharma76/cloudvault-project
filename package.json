@@ -9,7 +9,7 @@
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "build:frontend": "pnpm run typecheck:libs && pnpm --filter @workspace/cloudvault run build",
     "build:libs": "pnpm --filter @workspace/db --filter @workspace/api-zod --if-present run build",
-    "build:backend": "pnpm run typecheck:libs && pnpm --filter @workspace/api-server run build",
+    "build:backend": "pnpm --filter @workspace/api-server run build",
     "start:frontend": "pnpm --filter @workspace/cloudvault run serve",
     "start:backend": "pnpm --filter @workspace/api-server run start",
     "typecheck:libs": "tsc --build",

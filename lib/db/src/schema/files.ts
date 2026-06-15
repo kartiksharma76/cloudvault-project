@@ -1,4 +1,4 @@
-import { mysqlTable, text, timestamp, int, boolean } from "drizzle-orm/mysql-core";
+import { mysqlTable, text, timestamp, int, boolean, varchar } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -18,10 +18,10 @@ export const filesTable = mysqlTable("files", {
   id: int("id").autoincrement().primaryKey(),
   userId: text("user_id").notNull(),
   name: text("name").notNull(),
-  objectPath: text("object_path").notNull(),
+  objectPath: varchar("object_path", { length: 1024 }).notNull(),
   size: int("size").notNull().default(0),
-  mimeType: text("mime_type").notNull().default("application/octet-stream"),
-  fileType: text("file_type").notNull().default("other"),
+  mimeType: varchar("mime_type", { length: 255 }).notNull().default("application/octet-stream"),
+  fileType: varchar("file_type", { length: 50 }).notNull().default("other"),
   folderId: int("folder_id").references(() => foldersTable.id, { onDelete: "set null" }),
   isStarred: boolean("is_starred").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
