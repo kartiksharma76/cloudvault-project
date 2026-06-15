@@ -6,7 +6,11 @@
   "exports": {
     ".": "./src/generated/api.ts"
   },
+  "scripts": {
+    "build": "pnpm exec tsc -p tsconfig.json"
+  },
   "dependencies": {
     "zod": "catalog:"
-  }
+  },
+  "types": "./dist/generated/api.d.ts"
 }
