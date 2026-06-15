@@ -102,7 +102,7 @@ export class ObjectStorageService {
 
   async getObjectEntityUploadURL(): Promise<string> {
     const objectId = randomUUID();
-    return `http://localhost:${process.env.PORT || 5000}/api/storage/local-upload/${objectId}`;
+    return `/api/storage/local-upload/${objectId}`;
   }
 
   async getObjectEntityFile(objectPath: string): Promise<File> {
