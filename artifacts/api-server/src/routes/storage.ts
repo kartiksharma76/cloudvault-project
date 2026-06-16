@@ -144,7 +144,20 @@ router.put("/storage/local-upload/:objectId", express.raw({ type: "*/*", limit: 
       fs.mkdirSync(LOCAL_DIR, { recursive: true });
     }
     const fullPath = path.join(LOCAL_DIR, objectId);
-    fs.writeFileSync(fullPath, req.body);
+    
+    let dataToWrite = req.body;
+    if (typeof dataToWrite === 'object' && !Buffer.isBuffer(dataToWrite)) {
+      dataToWrite = JSON.stringify(dataToWrite);
+    }
+    fs.writeFileSync(fullPath, dataToWrite);
+
+    const contentType = req.headers["content-type"] || "application/octet-stream";
+    const fileNameHeader = req.headers["x-file-name"];
+    const originalName = fileNameHeader ? decodeURIComponent(fileNameHeader as string) : undefined;
+    
+    const meta = { contentType, originalName };
+    fs.writeFileSync(`${fullPath}.meta.json`, JSON.stringify(meta));
+
     res.status(200).send("OK");
   } catch (error) {
     req.log.error({ err: error }, "Error saving local upload");

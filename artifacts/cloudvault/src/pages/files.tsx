@@ -42,7 +42,10 @@ export function Files() {
       await fetch(uploadURL, {
         method: 'PUT',
         body: file,
-        headers: { 'Content-Type': file.type }
+        headers: { 
+          'Content-Type': file.type,
+          'x-file-name': encodeURIComponent(file.name)
+        }
       });
 
       // Simple file type categorization
@@ -257,7 +260,7 @@ function FileCard({ file, onStar, onDelete }: any) {
               {file.isStarred ? "Remove Star" : "Add Star"}
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <a href={`/api/storage${file.objectPath}`} download target="_blank" rel="noopener noreferrer" className="cursor-pointer flex items-center w-full">
+              <a href={`/api/storage${file.objectPath}`} download={file.name} target="_blank" rel="noopener noreferrer" className="cursor-pointer flex items-center w-full">
                 <Download className="w-4 h-4 mr-2" />
                 Download
               </a>
@@ -305,7 +308,7 @@ function FileListItem({ file, onStar, onDelete }: any) {
               {file.isStarred ? "Remove Star" : "Add Star"}
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <a href={`/api/storage${file.objectPath}`} download target="_blank" rel="noopener noreferrer" className="cursor-pointer flex items-center w-full">
+              <a href={`/api/storage${file.objectPath}`} download={file.name} target="_blank" rel="noopener noreferrer" className="cursor-pointer flex items-center w-full">
                 <Download className="w-4 h-4 mr-2" />
                 Download
               </a>

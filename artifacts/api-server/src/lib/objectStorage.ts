@@ -96,6 +96,9 @@ export class ObjectStorageService {
     if (metadata.size) {
       headers["Content-Length"] = String(metadata.size);
     }
+    if (metadata.originalName) {
+      headers["Content-Disposition"] = `attachment; filename="${metadata.originalName}"`;
+    }
 
     return new Response(webStream, { headers });
   }
